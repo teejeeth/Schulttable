@@ -27,7 +27,6 @@
             margin: 0;
         }
 
-        /* Desktop Optimized Layout */
         .app-container {
             display: grid;
             grid-template-columns: 300px 1fr;
@@ -38,7 +37,6 @@
             align-items: center;
         }
 
-        /* Sidebar for Controls */
         .sidebar {
             background: var(--surface);
             padding: 2rem;
@@ -46,11 +44,11 @@
             border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            height: 100%;
         }
 
-        /* Main Game Area */
         .game-area {
             display: flex;
             flex-direction: column;
@@ -61,7 +59,7 @@
 
         .schulte-grid {
             display: grid;
-            gap: 12px; /* Slightly larger gap for desktop */
+            gap: 12px;
             width: min(80vh, 80vw); 
             height: min(80vh, 80vw);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -78,7 +76,6 @@
             transition: all 0.15s ease;
             user-select: none;
             border: 1px solid rgba(255,255,255,0.03);
-            /* Dynamic sizing based on grid capacity */
             font-size: clamp(1rem, 5cqi, 3rem);
             color: var(--text-main);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -88,7 +85,6 @@
             background-color: var(--surface-hover);
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
         }
 
         .schulte-cell:active {
@@ -113,7 +109,6 @@
             75% { transform: translateX(6px); }
         }
 
-        /* Custom Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -135,68 +130,70 @@
             background: var(--accent);
             margin-top: -6px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
         }
 
-        /* Mobile Adjustments */
+        /* Custom Checkbox */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
         @media (max-width: 900px) {
             .app-container {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto 1fr;
-                height: auto;
-                width: 100%;
                 overflow-y: auto;
                 padding: 1rem;
             }
-            .sidebar {
-                padding: 1rem;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                gap: 1rem;
-            }
+            .sidebar { height: auto; padding: 1rem; flex-direction: column; }
             .sidebar-header, .sidebar-stats { display: none; }
-            .sidebar-controls { flex: 1; }
-            .schulte-grid {
-                width: 90vw;
-                height: 90vw;
-                margin-top: 1rem;
-            }
+            .schulte-grid { width: 90vw; height: 90vw; }
         }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- Dashboard Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h1 class="text-3xl font-black text-indigo-500">SCHULTE</h1>
                 <p class="text-slate-500 text-sm">Peripheral Vision Training</p>
             </div>
 
-            <div class="sidebar-controls space-y-6">
+            <div class="sidebar-controls space-y-4">
                 <div>
                     <div class="flex justify-between items-center mb-3">
-                        <span class="text-sm font-semibold text-slate-400">GRID SIZE</span>
+                        <span class="text-sm font-semibold text-slate-400 uppercase tracking-tighter">Grid Size</span>
                         <span id="sizeDisplay" class="bg-indigo-500/10 text-indigo-400 px-2 py-1 rounded text-xs font-bold">5x5</span>
                     </div>
                     <input type="range" id="gridSlider" min="3" max="8" value="5" class="cursor-pointer">
-                    <div class="flex justify-between text-[10px] text-slate-600 mt-2 font-bold">
-                        <span>3x3</span>
-                        <span>8x8</span>
-                    </div>
                 </div>
 
+                <label class="toggle-container group">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Auto-Advance</span>
+                    <div class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="autoAdvance" class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                    </div>
+                </label>
+
                 <button onclick="initGame()" class="w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl transition-all flex items-center justify-center gap-2 font-bold border border-white/5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
                     RESET BOARD
                 </button>
             </div>
 
-            <div class="sidebar-stats mt-auto space-y-4">
+            <div class="sidebar-stats mt-auto space-y-3">
+                <div class="bg-black/20 p-4 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] text-slate-500 block mb-1 uppercase tracking-widest font-bold">Best (<span id="bestLabel">5x5</span>)</span>
+                        <span id="bestDisplay" class="text-2xl font-mono text-emerald-400">--.-</span>
+                    </div>
+                </div>
                 <div class="bg-black/20 p-4 rounded-2xl">
                     <span class="text-[10px] text-slate-500 block mb-1 uppercase tracking-widest font-bold">Target</span>
                     <span id="targetDisplay" class="text-4xl font-mono text-white">1</span>
@@ -208,25 +205,24 @@
             </div>
         </aside>
 
-        <!-- Main Game Area -->
         <main class="game-area">
             <div id="gridContainer" class="schulte-grid"></div>
             <div id="feedback" class="mt-6 h-6 text-indigo-400/60 font-medium tracking-wide"></div>
         </main>
     </div>
 
-    <!-- Modal with dark theme for reduced eye strain -->
     <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="bg-[#1e1e1e] p-10 rounded-3xl max-w-sm w-full text-center shadow-2xl border border-white/10">
-            <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div id="modalIcon" class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="text-3xl font-black mb-2 text-white">Great Focus!</h2>
-            <p id="finalTime" class="text-slate-400 text-lg mb-8 font-mono">Time: 00.0s</p>
+            <h2 id="modalTitle" class="text-3xl font-black mb-2 text-white">Great Focus!</h2>
+            <p id="finalTime" class="text-slate-400 text-lg mb-2 font-mono">Time: 00.0s</p>
+            <p id="newRecordMsg" class="text-emerald-400 text-sm font-bold mb-8 hidden">NEW PERSONAL BEST!</p>
             <button id="restartBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black transition-all shadow-lg">
-                TRY AGAIN
+                NEXT LEVEL
             </button>
         </div>
     </div>
@@ -240,13 +236,35 @@
 
         const gridContainer = document.getElementById('gridContainer');
         const gridSlider = document.getElementById('gridSlider');
+        const autoAdvance = document.getElementById('autoAdvance');
         const sizeDisplay = document.getElementById('sizeDisplay');
+        const bestLabel = document.getElementById('bestLabel');
+        const bestDisplay = document.getElementById('bestDisplay');
         const targetDisplay = document.getElementById('targetDisplay');
         const timerDisplay = document.getElementById('timerDisplay');
         const feedback = document.getElementById('feedback');
         const modal = document.getElementById('modal');
         const restartBtn = document.getElementById('restartBtn');
         const finalTimeDisplay = document.getElementById('finalTime');
+        const newRecordMsg = document.getElementById('newRecordMsg');
+
+        function loadSettings() {
+            const savedSize = localStorage.getItem('schulte_grid_size');
+            if (savedSize) {
+                gridSize = parseInt(savedSize);
+                gridSlider.value = gridSize;
+            }
+            const savedAuto = localStorage.getItem('schulte_auto_advance');
+            autoAdvance.checked = savedAuto === 'true';
+            updateUI();
+        }
+
+        function updateUI() {
+            sizeDisplay.innerText = `${gridSize}x${gridSize}`;
+            bestLabel.innerText = `${gridSize}x${gridSize}`;
+            const best = localStorage.getItem(`schulte_best_${gridSize}`);
+            bestDisplay.innerText = best ? parseFloat(best).toFixed(1) + 's' : '--.-';
+        }
 
         function initGame() {
             clearInterval(timerInterval);
@@ -255,6 +273,7 @@
             timerDisplay.innerText = "00.0";
             targetDisplay.innerText = "1";
             feedback.innerText = "Focus on the center. Start with 1.";
+            updateUI();
             
             const totalCells = gridSize * gridSize;
             const numbers = Array.from({length: totalCells}, (_, i) => i + 1);
@@ -294,9 +313,7 @@
                     isRunning = true;
                     startTimer();
                 }
-
                 element.classList.add('correct');
-                
                 if (nextNumber === gridSize * gridSize) {
                     finishGame();
                 } else {
@@ -314,23 +331,54 @@
 
         function finishGame() {
             clearInterval(timerInterval);
-            const timeTaken = timerDisplay.innerText;
-            finalTimeDisplay.innerText = `You finished in ${timeTaken} seconds`;
+            const timeTaken = parseFloat(timerDisplay.innerText);
+            finalTimeDisplay.innerText = `Time: ${timeTaken.toFixed(1)}s`;
+            
+            // Check Highscore
+            const currentBest = localStorage.getItem(`schulte_best_${gridSize}`);
+            if (!currentBest || timeTaken < parseFloat(currentBest)) {
+                localStorage.setItem(`schulte_best_${gridSize}`, timeTaken);
+                newRecordMsg.classList.remove('hidden');
+            } else {
+                newRecordMsg.classList.add('hidden');
+            }
+
+            // Auto-advance logic
+            if (autoAdvance.checked && gridSize < 8) {
+                restartBtn.innerText = `ADVANCE TO ${gridSize + 1}x${gridSize + 1}`;
+            } else if (autoAdvance.checked && gridSize === 8) {
+                restartBtn.innerText = "8x8 COMPLETED!";
+            } else {
+                restartBtn.innerText = "TRY AGAIN";
+            }
+
             modal.classList.remove('hidden');
         }
 
         gridSlider.oninput = (e) => {
             gridSize = parseInt(e.target.value);
-            sizeDisplay.innerText = `${gridSize}x${gridSize}`;
+            localStorage.setItem('schulte_grid_size', gridSize);
             initGame();
         };
 
+        autoAdvance.onchange = (e) => {
+            localStorage.setItem('schulte_auto_advance', e.target.checked);
+        };
+
         restartBtn.onclick = () => {
+            if (autoAdvance.checked && gridSize < 8) {
+                gridSize++;
+                gridSlider.value = gridSize;
+                localStorage.setItem('schulte_grid_size', gridSize);
+            }
             modal.classList.add('hidden');
             initGame();
         };
 
-        window.onload = initGame;
+        window.onload = () => {
+            loadSettings();
+            initGame();
+        };
     </script>
 </body>
 </html>
