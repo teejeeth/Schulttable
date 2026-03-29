@@ -215,17 +215,17 @@
         </main>
     </div>
 
-    <!-- Modal remains for completion -->
-    <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-white p-10 rounded-3xl max-w-sm w-full text-center shadow-2xl">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+    <!-- Modal with dark theme for reduced eye strain -->
+    <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-[#1e1e1e] p-10 rounded-3xl max-w-sm w-full text-center shadow-2xl border border-white/10">
+            <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="text-3xl font-black mb-2 text-slate-900">Great Focus!</h2>
-            <p id="finalTime" class="text-slate-500 text-lg mb-8">Time: 00:00</p>
-            <button id="restartBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black transition-all shadow-lg shadow-indigo-200">
+            <h2 class="text-3xl font-black mb-2 text-white">Great Focus!</h2>
+            <p id="finalTime" class="text-slate-400 text-lg mb-8 font-mono">Time: 00.0s</p>
+            <button id="restartBtn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-black transition-all shadow-lg">
                 TRY AGAIN
             </button>
         </div>
